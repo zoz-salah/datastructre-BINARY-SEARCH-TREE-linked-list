@@ -1,0 +1,148 @@
+#include <iostream>
+using namespace std;
+
+class Node
+{
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node(int data)
+    {
+        val = data;
+        left = NULL;
+        right = NULL;
+    }
+    void printNode()
+    {
+        cout<<val<<' ';
+    }
+};
+
+
+class Tree
+{
+private:
+    Node* root;
+public:
+    Tree()
+    {
+        root = NULL;
+    }
+
+    void insert(int key)
+    {
+        Node* newNode = new Node(key);
+        /// Empty tree
+        if(root == NULL)
+        {
+            root = newNode;
+            return;
+        }
+
+        Node* current = root;
+        Node* parent;
+
+        while(true)
+        {
+            parent = current;
+            if(key < current->val)
+            {
+                current = current->left;
+                if(current == NULL)
+                {
+                    parent->left = newNode;
+                    return;
+                }
+            }
+            else
+            {
+                current = current->right;
+                if(current == NULL)
+                {
+                    parent->right = newNode;
+                    return;
+                }
+            }
+        }
+    }
+
+    void preOrder(Node* root)
+    {
+        if(root != NULL)
+        {
+            root->printNode();
+            preOrder(root->left);
+            preOrder(root->right);
+        }
+    }
+
+    void inOrder(Node* root)
+    {
+        if(root != NULL)
+        {
+            inOrder(root->left);
+            root->printNode();
+            inOrder(root->right);
+        }
+    }
+
+
+    void postOrder(Node* root)
+    {
+        if(root != NULL)
+        {
+            postOrder(root->left);
+            postOrder(root->right);
+            root->printNode();
+        }
+    }
+
+    Node* find(int key)
+    {
+        Node* current = root;
+        while(current != NULL && current->val != key)
+        {
+            if(key < current->val){
+                current = current->left;
+            }
+            else {
+                current = current->right;
+            }
+        }
+        return current;
+    }
+
+
+    void printInOrder()
+    {
+        inOrder(root);
+        cout<<'\n';
+    }
+    void printPreOrder()
+    {
+        preOrder(root);
+        cout<<'\n';
+    }
+    void printPostOrder()
+    {
+        postOrder(root);
+        cout<<'\n';
+    }
+};
+int main()
+{
+    Tree tree;
+    tree.insert(50);
+    tree.insert(30);
+    tree.insert(70);
+    tree.insert(20);
+    tree.insert(40);
+    tree.insert(60);
+    tree.insert(80);
+    cout<<"Post Order:\n";
+    tree.printPostOrder();
+
+
+    return 0;
+}
